@@ -1,38 +1,23 @@
 function Matrix(type) {
   this.type = type
-  this.elements = []
+  this.matrix = []
   this.numRows = 0
   this.numColumns = 0
 
 }
 
-Matrix.prototype.setElements = function(elements) {
-  this.elements = elements
-  return this
-}
+Matrix.prototype.setMatrix = function(rows, columns, data) {
+  for(var i=0; i < rows; i++) {
+    var row = []
+    for(var j=0; j < columns; j++) {
+      var index = i * columns + j
+      if (index >= data.length) {
+        console.warn("Array bounds exeeded")
 
-Matrix.prototype.setRows = function(rows) {
-  this.numRows = rows
-  return this
-}
-
-Matrix.prototype.setColumns = function(columns) {
-  this.numColumns = columns
-  return this
-}
-
-Matrix.prototype.rows = function() {
-  var rows = []
-  var count = 0
-  var rowLength = this.elements.length / this.numRows
-
-  for(var i=0; i < this.numRows; i++) {
-    var row =[]
-    for(var j=0; j < rowLength; j++) {
-      index = (i * rowLength) + j
-      row.push(this.elements[index])
+      }
+      row.push(data[index])
     }
-    rows.push(row)
+    this.matrix.push(row)
   }
-  return rows
+  return this
 }
