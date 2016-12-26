@@ -40,6 +40,7 @@ function randomMatrix(length)
     return letterArray;
 }
 
+// letter frequencies from https://www.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html
 var letterFrequencies = {
 "E" :	0.1202,
 "T" :	0.0910,
@@ -92,7 +93,6 @@ function randomLetterWeighted() {
 }
 
 function findTrieWord( word, cur ) {
-  //console.log(word)
 	if ( cur === 0 ) {
 		return false;
 	}
