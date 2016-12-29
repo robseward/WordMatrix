@@ -31,6 +31,8 @@ Matrix.prototype.getColumn = function(columnIndex) {
   return column
 }
 
+
+//Diagonals algo from here: http://stackoverflow.com/questions/2862802/traverse-2d-array-matrix-diagonally
 Matrix.prototype.getLeftDiagonals = function() {
   var n = this.matrix[0].length
   var m = this.matrix.length
