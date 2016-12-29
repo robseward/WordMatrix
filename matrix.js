@@ -1,5 +1,4 @@
 function Matrix(type) {
-  this.type = type
   this.matrix = []
 }
 
@@ -11,7 +10,8 @@ Matrix.prototype.setMatrix = function(rows, columns, data) {
       if (index >= data.length) {
         console.warn("Array bounds exeeded")
       }
-      row.push(data[index])
+      var e = new Element(data[index], index)
+      row.push(e)
     }
     this.matrix.push(row)
   }

@@ -1,4 +1,6 @@
 
+
+var matrix
 function main() {
   //setup matrix
   //setup svg
@@ -6,22 +8,8 @@ function main() {
   //find words
 
 
-
   var letters = randomLetters(100)
-  var matrix = new Matrix().setMatrix(10, 10, letters)
-  //var letters = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-  //var matrix = new Matrix().setMatrix(10, 10, letters)
-
-  // var lettersDiv = d3.select("#letters")
-  // lettersDiv.selectAll("foo")
-  //           .data(letters)
-  //           .enter()
-  //           .append("div")
-  //           .attr('class', 'letter')
-  //           .text(function(d) { return d})
-  // var words = findWords(letters)
-  // d3.select("#words").append("p").text(words)
-
+  matrix = new Matrix().setMatrix(10, 10, letters)
   var svg = d3.select("body").append("svg").attr("width", 300).attr("height", 300)
 
   var xStart = 20
@@ -31,8 +19,9 @@ function main() {
   var yStep = 17
   for (var n=0; n < matrix.matrix.length; n++){
     for (var m=0; m < matrix.matrix[0].length; m++) {
-      var letter = matrix.matrix[m][n]
-      addLetter(svg, letter, x, y)
+      var e = matrix.matrix[m][n]
+      var id = "letter_" + e.id
+      addLetter(svg, e.letter, id, x, y)
       x += xStep
     }
     y += yStep
@@ -40,7 +29,7 @@ function main() {
   }
 }
 
-function addLetter(svg, letter, x, y) {
+function addLetter(svg, letter, id, x, y) {
   svg.append("text")
     .text(letter)
     .attr("x", x)
@@ -48,6 +37,7 @@ function addLetter(svg, letter, x, y) {
     .attr("class", "letter")
     .attr("fill", "black")
     .attr("text-anchor", "middle")
+    .attr("id", id)
 }
 
 function findWords(letterList) {
