@@ -18,8 +18,12 @@ Matrix.prototype.setMatrix = function(rows, columns, data) {
   return this
 }
 
+Matrix.prototype.getRows = function() {
+  return this.matrix
+}
+
 Matrix.prototype.getRow = function(rowIndex) {
-  this.matrix[rowIndex]
+  return this.matrix[rowIndex]
 }
 
 Matrix.prototype.getColumn = function(columnIndex) {

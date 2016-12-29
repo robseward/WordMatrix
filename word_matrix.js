@@ -1,5 +1,6 @@
 
-
+var rows = 16
+var columns = 9
 var matrix
 function main() {
   //setup matrix
@@ -8,17 +9,44 @@ function main() {
   //find words
 
 
-  var letters = randomLetters(100)
-  matrix = new Matrix().setMatrix(10, 10, letters)
-  var svg = d3.select("body").append("svg").attr("width", 300).attr("height", 300)
+  var letters = randomLetters(rows * columns)
+  matrix = new Matrix().setMatrix(rows, columns, letters)
+  var svg = d3.select("body").append("svg").attr("width", 30 * columns).attr("height", 30 * rows)
 
+  drawMatrix(svg, matrix)
+  drawWords(svg, matrix)
+}
+
+function drawWords(svg, matrix) {
+  var results = []
+  for (row of matrix.getRows()) {
+    results.push(findWords(row))
+  }
+  for (result of results) {
+    console.log(result)
+    for (word of result) {
+      for (id of word.ids){
+        var cssId = "#letter_" + id
+        makeRed(svg, cssId)
+      }
+    }
+  }
+}
+
+function makeRed(svg, id) {
+  console.log(id)
+  svg.select(id)
+    .style("fill", "red")
+}
+
+function drawMatrix(svg, matrix) {
   var xStart = 20
-  var x=xStart
-  var y=20
+  var x = xStart
+  var y = 20
   var xStep = 15
   var yStep = 17
-  for (var n=0; n < matrix.matrix.length; n++){
-    for (var m=0; m < matrix.matrix[0].length; m++) {
+  for (var m=0; m < matrix.matrix.length; m++){
+    for (var n=0; n < matrix.matrix[0].length; n++) {
       var e = matrix.matrix[m][n]
       var id = "letter_" + e.id
       addLetter(svg, e.letter, id, x, y)
@@ -35,32 +63,38 @@ function addLetter(svg, letter, id, x, y) {
     .attr("x", x)
     .attr("y", y)
     .attr("class", "letter")
-    .attr("fill", "black")
     .attr("text-anchor", "middle")
     .attr("id", id)
 }
 
-function findWords(letterList) {
+function findWords(elementList) {
   var minWordSize = 4
   var maxWordSize = 10
   var wordLocations = []
+
+  var results = []
+
   var words = []
-  for(i=0; i < letterList.length; i++) {
+
+  for(i=0; i < elementList.length; i++) {
     for(j=i+minWordSize; j <= i+maxWordSize; j++) {
-      if (j > letterList.length) {
+      if (j > elementList.length) {
         continue
       }
       var word = ""
+      var ids = []
       for(k=i; k < j; k++) {
-        word += letterList[k].toLowerCase()
+        e = elementList[k]
+        word += e.letter.toLowerCase()
+        ids.push(e.id)
       }
       if (findTrieWord(word, wordTrie)){
-        words.push(word)
+        results.push( {word: word, ids: ids} )
       }
     }
   }
-  console.log(words)
-  return words
+  console.log(results)
+  return results
 }
 
 
