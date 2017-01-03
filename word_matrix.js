@@ -23,7 +23,6 @@ function drawWords(svg, matrix) {
     results.push(findWords(row))
   }
   for (result of results) {
-    console.log(result)
     for (word of result) {
       for (id of word.ids){
         var cssId = "#letter_" + id
@@ -34,7 +33,6 @@ function drawWords(svg, matrix) {
 }
 
 function makeRed(svg, id) {
-  console.log(id)
   svg.select(id)
     .style("fill", "red")
 }
@@ -93,17 +91,15 @@ function findWords(elementList) {
       }
     }
   }
-  console.log(results)
   return results
 }
 
 
 function randomLetters(length)
 {
-    var text = "";
     var letterArray = []
     for( var i=0; i < length; i++ )
-        letterArray += randomLetterWeighted()
+        letterArray.push( randomLetterWeighted())
     return letterArray;
 }
 
