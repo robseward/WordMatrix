@@ -3,18 +3,46 @@ var rows = 16
 var columns = 9
 var matrix
 function main() {
-  //setup matrix
-  //setup svg
-  //draw letters into svg
-  //find words
-
 
   var letters = randomLetters(rows * columns)
+  letters[0] = " "
+  console.log(letters)
   matrix = new Matrix().setMatrix(rows, columns, letters)
   var svg = d3.select("body").append("svg").attr("width", 30 * columns).attr("height", 30 * rows)
 
   drawMatrix(svg, matrix)
   drawWords(svg, matrix)
+
+  moveLetters(0, {row: 1, column: 1})
+  //d3.select("#letter_31").transition().delay(1000).duration(500).attr("x", 65)
+}
+
+function moveLetters(id, element) {
+  var id = "#letter_" + id
+  var destination = matrix.randomSwapDestination(element)
+
+  var distance = 65
+  var movement = {attr : "", amount : 65}
+  switch (destination.direction) {
+  case "r":
+    movement.attr = "x"
+    movement.amount = distance
+    break
+  case "l":
+    movement.attr = "x"
+    movement.amount = -distance
+    break
+  case "u":
+    movement.attr = "y"
+    movement.amount = -distance
+    break
+  case "d":
+    movement.attr = "y"
+    movement.amount = distance
+    break
+  }
+  console.log(destination.direction + " " + movement)
+  d3.select(id).transition().delay(0).duration(500).attr(movement.attr, movement.direction)
 }
 
 function drawWords(svg, matrix) {
