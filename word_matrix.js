@@ -13,7 +13,7 @@ function main() {
   drawMatrix(svg, matrix)
   drawWords(svg, matrix)
 
-  moveLetters(0, {row: 1, column: 1})
+  moveLetters(10, {row: 1, column: 1})
   //d3.select("#letter_31").transition().delay(1000).duration(500).attr("x", 65)
 }
 
@@ -21,7 +21,7 @@ function moveLetters(id, element) {
   var id = "#letter_" + id
   var destination = matrix.randomSwapDestination(element)
 
-  var distance = 65
+  var distance = 15
   var movement = {attr : "", amount : 65}
   switch (destination.direction) {
   case "r":
@@ -41,8 +41,9 @@ function moveLetters(id, element) {
     movement.amount = distance
     break
   }
-  console.log(destination.direction + " " + movement)
-  d3.select(id).transition().delay(0).duration(500).attr(movement.attr, movement.direction)
+  var location = parseInt(d3.select(id).attr(movement.attr)) + movement.amount
+  console.log(id + " " + destination.direction + " " + movement.attr + " " + location)
+  d3.select(id).transition().delay(0).duration(500).attr(movement.attr, location)
 }
 
 function drawWords(svg, matrix) {
