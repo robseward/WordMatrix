@@ -35,20 +35,15 @@ Matrix.prototype.getColumn = function(columnIndex) {
   return column
 }
 
-Matrix.prototype.swap = function(element1, element2) {
-  var m1 = element1.row
-  var n1 = element1.column
-  var m2 = element2.row
-  var n2 = element2.column
-
-  var temp = this.matrix[m1][n1]
-  this.matrix[m1][n1] = this.matrix[m2][n2]
-  this.matrix[m2][n2] = temp
+Matrix.prototype.swap = function(row1, col1, row2, col2) {
+  var temp = this.matrix[row1][col1]
+  this.matrix[row1][col1] = this.matrix[row2][col2]
+  this.matrix[row2][col2] = temp
 }
 
-Matrix.prototype.randomSwapDestination = function (element) {
-  var m = element.row
-  var n = element.column
+Matrix.prototype.randomSwapDestination = function (row, column) {
+  var m = row
+  var n = column
   var move = ""
   var direction = Math.round(Math.random() * 100) % 4
   switch (direction) {
@@ -72,9 +67,9 @@ Matrix.prototype.randomSwapDestination = function (element) {
       break;
   }
   if ((m >= this.matrix.length || m < 0) || (n >= this.matrix[0].length || n < 0)) {
-    return this.randomSwapDestination(element)
+    return this.randomSwapDestination(row, column)
   }
-  return {row: m, column: n, direction : move}
+  return {row: m, column: n, direction : move, element: this.matrix[m][n]}
 }
 
 //Diagonals algo from here: http://stackoverflow.com/questions/2862802/traverse-2d-array-matrix-diagonally

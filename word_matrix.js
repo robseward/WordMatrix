@@ -2,6 +2,7 @@
 var rows = 16
 var columns = 9
 var matrix = {}
+var cssIdPrefix = "#letter_"
 
 function main() {
   var letters = letterGenerator.randomLetters(rows * columns)
@@ -13,7 +14,8 @@ function main() {
   drawMatrix(svg, matrix)
   drawWords(svg, matrix)
 
-  moveLetters(10, {row: 1, column: 1})
+  moveLetters(1, 2)
+  //moveLetters(10, {row: 1, column: 1})
   d3.select("#letter_31").transition().delay(1000).duration(500).attr("x", 65)
 }
 
@@ -24,16 +26,49 @@ function main() {
 // animate
 
 
-function moveLetters(id, element) {
-  var id = "#letter_" + id
-  var destination = matrix.randomSwapDestination(element)
-  console.log(destination)
-  var delta = 15
-  var movement = attributesForDirection(destination.direction, delta)
-  var newValue = parseInt(d3.select(id).attr(movement.axis)) + movement.delta
-  console.log(id + " " + destination.direction + " " + movement.attr + " " + newValue)
-  d3.select(id).transition().delay(0).duration(500).attr(movement.axis, newValue)
+// Get random swap desitination (m, n)
+// Get the collary
+// Find their coordinates in the dom
+// swap them in the matrix
+// swap them on the screen
+
+
+function moveLetters(row, column) {
+  var id1 = matrix.matrix[row][column].id
+  var destination = matrix.randomSwapDestination(row, column)
+  var id2 = destination.element.id
+  matrix.swap(row, column, destination.row, destination.column)
+  var x1 = d3.select(cssIdPrefix+id1).attr("x")
+  var y1 = d3.select(cssIdPrefix+id1).attr("y")
+  var x2 = d3.select(cssIdPrefix+id2).attr("x")
+  var y2 = d3.select(cssIdPrefix+id2).attr("y")
+
+  d3.select(cssIdPrefix + id1)
+    .transition().delay(0)
+    .duration(500)
+    .attr("x", x2)
+    .attr("y", y2)
+  d3.select(cssIdPrefix + id2)
+    .transition()
+    .delay(0)
+    .duration(500)
+    .attr("x", x1)
+    .attr("y", y1)
+
+  console.log(x1 + " " + y1 + " " + x2 + " " + y2)
 }
+
+//
+// function moveLetters(id, element) {
+//   var id = "#letter_" + id
+//   var destination = matrix.randomSwapDestination(element)
+//   console.log(destination)
+//   var delta = 15
+//   var movement = attributesForDirection(destination.direction, delta)
+//   var newValue = parseInt(d3.select(id).attr(movement.axis)) + movement.delta
+//   console.log(id + " " + destination.direction + " " + movement.attr + " " + newValue)
+//   d3.select(id).transition().delay(0).duration(500).attr(movement.axis, newValue)
+// }
 
 function attributesForDirection(direction, delta) {
   var movement = {axis : "", delta : 0}
