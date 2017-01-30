@@ -5,6 +5,7 @@ var matrix = {}
 var cssIdPrefix = "#letter_"
 var svg
 
+
 function main() {
   var letters = letterGenerator.randomLetters(rows * columns)
   letters[0] = " "
@@ -58,6 +59,7 @@ function moveLetters(row, column, excludeRow, excludeColumn) {
     .attr("y", y1)
     .on("end", function (d){
       moveLetters(destination.row, destination.column, row, column)
+      resetToBlack(svg)
       drawWords(svg, matrix)
     })
 }
@@ -113,9 +115,18 @@ function drawWords(svg, matrix) {
   }
 }
 
+function makeBlack(svg, id) {
+  svg.select(id)
+    .style("fill", "black")
+}
+
 function makeRed(svg, id) {
   svg.select(id)
     .style("fill", "red")
+}
+
+function resetToBlack(svg) {
+  svg.selectAll("text").style("fill", "black")
 }
 
 function drawMatrix(svg, matrix) {
