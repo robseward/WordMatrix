@@ -41,7 +41,7 @@ Matrix.prototype.swap = function(row1, col1, row2, col2) {
   this.matrix[row2][col2] = temp
 }
 
-Matrix.prototype.randomSwapDestination = function (row, column) {
+Matrix.prototype.randomSwapDestination = function (row, column, excludeRow, excludeColumn) {
   var m = row
   var n = column
   var move = ""
@@ -66,8 +66,10 @@ Matrix.prototype.randomSwapDestination = function (row, column) {
     default:
       break;
   }
-  if ((m >= this.matrix.length || m < 0) || (n >= this.matrix[0].length || n < 0)) {
-    return this.randomSwapDestination(row, column)
+  var excluded = (m == excludeRow && n == excludeColumn)
+  if ((m >= this.matrix.length || m < 0) || (n >= this.matrix[0].length || n < 0)
+      || excluded) {
+    return this.randomSwapDestination(row, column, excludeRow, excludeColumn)
   }
   return {row: m, column: n, direction : move, element: this.matrix[m][n]}
 }

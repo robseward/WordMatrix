@@ -3,18 +3,19 @@ var rows = 16
 var columns = 9
 var matrix = {}
 var cssIdPrefix = "#letter_"
+var svg
 
 function main() {
   var letters = letterGenerator.randomLetters(rows * columns)
   letters[0] = " "
   console.log(letters)
   matrix = new Matrix().setMatrix(rows, columns, letters)
-  var svg = d3.select("body").append("svg").attr("width", 30 * columns).attr("height", 30 * rows)
+  svg = d3.select("body").append("svg").attr("width", 30 * columns).attr("height", 30 * rows)
 
   drawMatrix(svg, matrix)
   drawWords(svg, matrix)
 
-  moveLetters(0, 0)
+  moveLetters(0, 0, -1, -1)
 }
 
 // get random destination for blank
@@ -31,10 +32,10 @@ function main() {
 // swap them on the screen
 
 
-function moveLetters(row, column) {
+function moveLetters(row, column, excludeRow, excludeColumn) {
   var duration = 200
   var id1 = matrix.matrix[row][column].id
-  var destination = matrix.randomSwapDestination(row, column)
+  var destination = matrix.randomSwapDestination(row, column, excludeRow, excludeColumn)
   var id2 = destination.element.id
 
   matrix.swap(row, column, destination.row, destination.column)
@@ -56,7 +57,8 @@ function moveLetters(row, column) {
     .attr("x", x1)
     .attr("y", y1)
     .on("end", function (d){
-      moveLetters(destination.row, destination.column)
+      moveLetters(destination.row, destination.column, row, column)
+      drawWords(svg, matrix)
     })
 }
 
