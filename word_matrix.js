@@ -14,9 +14,7 @@ function main() {
   drawMatrix(svg, matrix)
   drawWords(svg, matrix)
 
-  moveLetters(1, 2)
-  //moveLetters(10, {row: 1, column: 1})
-  d3.select("#letter_31").transition().delay(1000).duration(500).attr("x", 65)
+  moveLetters(0, 0)
 }
 
 // get random destination for blank
@@ -34,10 +32,13 @@ function main() {
 
 
 function moveLetters(row, column) {
+  var duration = 200
   var id1 = matrix.matrix[row][column].id
   var destination = matrix.randomSwapDestination(row, column)
   var id2 = destination.element.id
+
   matrix.swap(row, column, destination.row, destination.column)
+
   var x1 = d3.select(cssIdPrefix+id1).attr("x")
   var y1 = d3.select(cssIdPrefix+id1).attr("y")
   var x2 = d3.select(cssIdPrefix+id2).attr("x")
@@ -45,17 +46,18 @@ function moveLetters(row, column) {
 
   d3.select(cssIdPrefix + id1)
     .transition().delay(0)
-    .duration(500)
+    .duration(duration)
     .attr("x", x2)
     .attr("y", y2)
   d3.select(cssIdPrefix + id2)
     .transition()
     .delay(0)
-    .duration(500)
+    .duration(duration)
     .attr("x", x1)
     .attr("y", y1)
-
-  console.log(x1 + " " + y1 + " " + x2 + " " + y2)
+    .on("end", function (d){
+      moveLetters(destination.row, destination.column)
+    })
 }
 
 //
