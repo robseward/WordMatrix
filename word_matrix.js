@@ -34,7 +34,8 @@ function main() {
 
 
 function moveLetters(row, column, excludeRow, excludeColumn) {
-  var duration = 200
+  var duration = 100
+  var delay = 25
   var id1 = matrix.matrix[row][column].id
   var destination = matrix.randomSwapDestination(row, column, excludeRow, excludeColumn)
   var id2 = destination.element.id
@@ -47,13 +48,14 @@ function moveLetters(row, column, excludeRow, excludeColumn) {
   var y2 = d3.select(cssIdPrefix+id2).attr("y")
 
   d3.select(cssIdPrefix + id1)
-    .transition().delay(0)
+    .transition()
+    .delay(delay)
     .duration(duration)
     .attr("x", x2)
     .attr("y", y2)
   d3.select(cssIdPrefix + id2)
     .transition()
-    .delay(0)
+    .delay(delay)
     .duration(duration)
     .attr("x", x1)
     .attr("y", y1)
