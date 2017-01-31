@@ -26,6 +26,14 @@ Matrix.prototype.getRow = function(rowIndex) {
   return this.matrix[rowIndex]
 }
 
+Matrix.prototype.getColumns = function() {
+  var columns = []
+  for (var i=0; i < this.matrix[0].length; i++) {
+    columns.push(this.getColumn(i))
+  }
+  return columns
+}
+
 Matrix.prototype.getColumn = function(columnIndex) {
   var column = []
   for (var i=0; i < this.matrix.length; i++) {

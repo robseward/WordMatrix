@@ -34,6 +34,8 @@ function main() {
 
 
 function moveLetters(row, column, excludeRow, excludeColumn) {
+  // var duration = 50
+  // var delay = 10
   var duration = 100
   var delay = 25
   var id1 = matrix.matrix[row][column].id
@@ -106,6 +108,9 @@ function drawWords(svg, matrix) {
   var results = []
   for (row of matrix.getRows()) {
     results.push(findWords(row))
+  }
+  for (column of matrix.getColumns()) {
+    results.push(findWords(column))
   }
   for (result of results) {
     for (word of result) {
