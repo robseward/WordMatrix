@@ -4,6 +4,7 @@ var columns = 9
 var matrix = {}
 var cssIdPrefix = "#letter_"
 var svg
+var aspectRatio = 9.0/16.0
 
 
 function main() {
@@ -11,7 +12,11 @@ function main() {
   letters[0] = " "
   console.log(letters)
   matrix = new Matrix().setMatrix(rows, columns, letters)
-  svg = d3.select("body").append("svg").attr("width", 30 * columns).attr("height", 30 * rows)
+  var spacing = 100
+  var docHeight = document.documentElement.clientHeight
+  var width = docHeight * aspectRatio
+
+  svg = d3.select("body").append("svg").attr("width", width).attr("height", docHeight)
 
   drawMatrix(svg, matrix)
   drawWords(svg, matrix)
@@ -68,18 +73,7 @@ function moveLetters(row, column, excludeRow, excludeColumn) {
     })
 }
 
-//
-// function moveLetters(id, element) {
-//   var id = "#letter_" + id
-//   var destination = matrix.randomSwapDestination(element)
-//   console.log(destination)
-//   var delta = 15
-//   var movement = attributesForDirection(destination.direction, delta)
-//   var newValue = parseInt(d3.select(id).attr(movement.axis)) + movement.delta
-//   console.log(id + " " + destination.direction + " " + movement.attr + " " + newValue)
-//   d3.select(id).transition().delay(0).duration(500).attr(movement.axis, newValue)
-// }
-
+//deprecated
 function attributesForDirection(direction, delta) {
   var movement = {axis : "", delta : 0}
   switch (direction) {
@@ -124,7 +118,7 @@ function drawWords(svg, matrix) {
 
 function makeBlack(svg, id) {
   svg.select(id)
-    .style("fill", "black")
+    .style("fill", "white")
 }
 
 function makeRed(svg, id) {
@@ -133,15 +127,17 @@ function makeRed(svg, id) {
 }
 
 function resetToBlack(svg) {
-  svg.selectAll("text").style("fill", "black")
+  svg.selectAll("text").style("fill", "white")
 }
 
 function drawMatrix(svg, matrix) {
-  var xStart = 20
+  var width = parseInt(svg.style("width"))
+  var height = parseInt(svg.style("height"))
+  var xStart = width * 0.053
   var x = xStart
-  var y = 20
-  var xStep = 15
-  var yStep = 17
+  var y = height * 0.055
+  var xStep = width * 0.11
+  var yStep = height * 0.062
   for (var m=0; m < matrix.matrix.length; m++){
     for (var n=0; n < matrix.matrix[0].length; n++) {
       var e = matrix.matrix[m][n]

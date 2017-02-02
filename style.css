@@ -1,5 +1,11 @@
+body {
+  background-color: #000;
+  margin:0px;
+}
+
 .letter {
   text-align: center;
-  fill: black;
+  fill: white;
   font-family: Futura;
+  font-size: 5vh;
 }
