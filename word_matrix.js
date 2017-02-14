@@ -10,7 +10,7 @@ var aspectRatio = 9.0/16.0
 function main() {
   var letters = letterGenerator.randomLetters(rows * columns)
   letters[0] = " "
-  console.log(letters)
+
   matrix = new Matrix().setMatrix(rows, columns, letters)
   var spacing = 100
   var docHeight = document.documentElement.clientHeight
@@ -71,31 +71,6 @@ function moveLetters(row, column, excludeRow, excludeColumn) {
       resetToBlack(svg)
       drawWords(svg, matrix)
     })
-}
-
-//deprecated
-function attributesForDirection(direction, delta) {
-  var movement = {axis : "", delta : 0}
-  switch (direction) {
-  case "r":
-    movement.axis = "x"
-    movement.delta = delta
-    break
-  case "l":
-    movement.axis = "x"
-    movement.delta = -delta
-    break
-  case "u":
-    movement.axis = "y"
-    movement.delta = -delta
-    break
-  case "d":
-    movement.axis = "y"
-    movement.delta = delta
-    break
-  }
-
-  return movement
 }
 
 function drawWords(svg, matrix) {
