@@ -6,6 +6,7 @@ body {
 .letter {
   text-align: center;
   fill: white;
-  font-family: Futura;
-  font-size: 5vh;
+  font-family: 'Work Sans';
+  font-size: 7vh;
+  font-weight: 600;
 }
