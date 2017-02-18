@@ -8,6 +8,8 @@ var aspectRatio = 9.0/16.0
 
 
 function main() {
+  params = new URLSearchParams(window.location.search.slice(1))
+  console.log(params)
   var letters = letterGenerator.randomLetters(rows * columns)
   letters[0] = " "
 
@@ -23,20 +25,6 @@ function main() {
 
   moveLetters(0, 0, -1, -1)
 }
-
-// get random destination for blank
-// get corrdinates for new destination
-// get item to swap
-// get destination coordinates for swapped item
-// animate
-
-
-// Get random swap desitination (m, n)
-// Get the collary
-// Find their coordinates in the dom
-// swap them in the matrix
-// swap them on the screen
-
 
 function moveLetters(row, column, excludeRow, excludeColumn) {
   // var duration = 50

@@ -38,7 +38,7 @@ var letterGenerator = (function() {
   "Z" :	0.0007,
   }
 
-  function createCumlativeFrequency(letterFrequencies) {
+  exports.createCumlativeFrequency = function(letterFrequencies) {
     var cumlativeFrequencies = {}
     var cumulation = 0.0
     for( var letter in letterFrequencies) {
@@ -49,7 +49,7 @@ var letterGenerator = (function() {
     return cumlativeFrequencies
   }
 
-  cumulativeFrequencies = createCumlativeFrequency(letterFrequencies)
+  cumulativeFrequencies = exports.createCumlativeFrequency(letterFrequencies)
 
   exports.randomLetterWeighted = function() {
     var n = Math.random()
@@ -58,6 +58,35 @@ var letterGenerator = (function() {
         return letter
       }
     }
+  }
+
+  exports.frequenciesFromWordList = function (list) {
+    var letterCounts = {}
+    for (var i=0; i<list.length; i++) {
+      var word = list[i]
+      for (var j=0; j<word.length; j++) {
+        letter = word[j]
+        if (letterCounts[letter] === undefined) {
+          letterCounts[letter] = 1
+        } else {
+          letterCounts[letter]++
+        }
+      }
+    }
+    console.log(exports.normalize(letterCounts))
+    return exports.normalize(letterCounts)
+  }
+
+  exports.normalize = function(counts) {
+    var normalized = {}
+    var total = 0
+    for (letter in counts) {
+      total += counts[letter]
+    }
+    for (letter in counts) {
+      normalized[letter] = counts[letter] / total
+    }
+    return normalized
   }
 
   return exports
