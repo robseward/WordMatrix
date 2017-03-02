@@ -8,9 +8,19 @@ var aspectRatio = 9.0/16.0
 
 
 function main() {
+  var numLetters = rows * columns
+  var letters = []
+
   params = new URLSearchParams(window.location.search.slice(1))
-  console.log(params)
-  var letters = letterGenerator.randomLetters(rows * columns)
+  var wordsParam = params.get("words")
+  if (wordsParam) {
+    var words = wordsParam.split(',')
+    letters = letterGenerator.randomLettersFromWordList(words, numLetters)
+  }
+  else {
+    letters = letterGenerator.randomLetters(rows * columns)
+  }
+
   letters[0] = " "
 
   matrix = new Matrix().setMatrix(rows, columns, letters)
