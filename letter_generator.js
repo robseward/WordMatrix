@@ -2,14 +2,16 @@ var letterGenerator = (function() {
   var exports = {}
   exports.randomLetters = function(length)
   {
+      var cumulativeFrequencies = exports.createCumlativeFrequency(standardLetterFrequencies)
+
       var letterArray = []
       for( var i=0; i < length; i++ )
-          letterArray.push( exports.randomLetterWeighted())
+          letterArray.push( exports.randomLetterWeighted(cumulativeFrequencies))
       return letterArray;
   }
 
   // letter frequencies from https://www.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html
-  var letterFrequencies = {
+  var standardLetterFrequencies = {
   "E" :	0.1202,
   "T" :	0.0910,
   "A" :	0.0812,
@@ -49,9 +51,8 @@ var letterGenerator = (function() {
     return cumlativeFrequencies
   }
 
-  cumulativeFrequencies = exports.createCumlativeFrequency(letterFrequencies)
 
-  exports.randomLetterWeighted = function() {
+  exports.randomLetterWeighted = function(cumulativeFrequencies) {
     var n = Math.random()
     for(var letter in cumulativeFrequencies) {
       if (n < cumulativeFrequencies[letter]) {
