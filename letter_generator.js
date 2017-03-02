@@ -2,7 +2,7 @@ var letterGenerator = (function() {
   var exports = {}
   exports.randomLetters = function(length)
   {
-      var cumulativeFrequencies = exports.createCumlativeFrequency(standardLetterFrequencies)
+      var cumulativeFrequencies = exports.createCumulativeFrequency(standardLetterFrequencies)
 
       var letterArray = []
       for( var i=0; i < length; i++ )
@@ -40,15 +40,25 @@ var letterGenerator = (function() {
   "Z" :	0.0007,
   }
 
-  exports.createCumlativeFrequency = function(letterFrequencies) {
-    var cumlativeFrequencies = {}
+  exports.randomLettersFromWordList = function(words, length) {
+      var frequencies = exports.frequenciesFromWordList(words)
+      var cumulativeFrequencies = exports.createCumulativeFrequency(frequencies)
+
+      var letterArray = []
+      for( var i=0; i < length; i++ )
+          letterArray.push( exports.randomLetterWeighted(cumulativeFrequencies))
+      return letterArray;
+  }
+
+  exports.createCumulativeFrequency = function(letterFrequencies) {
+    var cumulativeFrequencies = {}
     var cumulation = 0.0
     for( var letter in letterFrequencies) {
       let prob = letterFrequencies[letter]
       cumulation += prob
-      cumlativeFrequencies[letter] = cumulation
+      cumulativeFrequencies[letter] = cumulation
     }
-    return cumlativeFrequencies
+    return cumulativeFrequencies
   }
 
 
