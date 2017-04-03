@@ -72,18 +72,28 @@ function moveLetters(row, column, excludeRow, excludeColumn) {
 }
 
 function drawWords(svg, matrix) {
-  var results = []
+  var rowResults = []
+  var columnResults = []
   for (row of matrix.getRows()) {
-    results.push(findWords(row))
+    rowResults.push(findWords(row))
   }
   for (column of matrix.getColumns()) {
-    results.push(findWords(column))
+    columnResults.push(findWords(column))
   }
-  for (result of results) {
+  for (result of rowResults) {
     for (word of result) {
       for (id of word.ids){
         var cssId = "#letter_" + id
         makeRed(svg, cssId)
+      }
+    }
+  }
+
+  for (result of columnResults) {
+    for (word of result) {
+      for (id of word.ids){
+        var cssId = "#letter_" + id
+        makeBlue(svg, cssId)
       }
     }
   }
@@ -97,6 +107,11 @@ function makeBlack(svg, id) {
 function makeRed(svg, id) {
   svg.select(id)
     .style("fill", "red")
+}
+
+function makeBlue(svg, id) {
+  svg.select(id)
+    .style("fill", "#0691f9")
 }
 
 function resetToBlack(svg) {
@@ -156,7 +171,7 @@ function findWords(elementList) {
       }
       if (findTrieWord(word, wordTrie)){
         results.push( {word: word, ids: ids} )
-        i = k
+        //i = k
       }
     }
   }
