@@ -156,6 +156,7 @@ function findWords(elementList) {
       }
       if (findTrieWord(word, wordTrie)){
         results.push( {word: word, ids: ids} )
+        i = k
       }
     }
   }
@@ -177,7 +178,6 @@ function findTrieWord( word, cur ) {
 
 			if ( node.length === word.length ) {
 				return val === 0 || val.$ === 0;
-
 			} else {
 				return findTrieWord( word.slice( node.length ), val );
 			}
