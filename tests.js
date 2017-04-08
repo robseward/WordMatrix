@@ -1,25 +1,28 @@
 var elements = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-function elementStubFactory(letterList) {
-  var elements = []
-  for(var i=0; i < letterList.length; i++){
-    var e = new Element(letterList[i], 0)
-    elements.push(e)
+var testWordFinding = (function() {
+  var exports = {}
+
+  elementStubFactory = function(letterList) {
+    var elements = []
+    for(var i=0; i < letterList.length; i++){
+      var e = new Element(letterList[i], 0)
+      elements.push(e)
+    }
+    return elements
   }
-  return elements
-}
 
-function testWordFinding(){
+  function eq(a1, a2) {
+    return a1.length==a2.length && a1.every(function(v,i) { return v === a2[i]})
+  }
 
-
-  function testCompoundWords() {
-    var baseball = elementStubFactory("BASEBALL")
-    var crosswalk = elementStubFactory("CROSSWALK")
-    var anybody = elementStubFactory("ANYBODY")
-
-    var results = findWords(baseball)
-    if (results != ["base"]) {
-      throw "failed test: " + getWords(results)
+  function test(letters, expectedResults) {
+    var letterElements = elementStubFactory(letters)
+    var results = getWords(findWords(letterElements))
+    if (!eq(results, expectedResults)) {
+      throw "failed test: \nExpected: " + expectedResults + "\nReceived: " + results
+    } else {
+      console.log("PASS: " + letters)
     }
   }
 
@@ -31,6 +34,9 @@ function testWordFinding(){
     return output
   }
 
+  exports.runTests = function() {
+    test("baseball", ["base", "baseball", "ball"])
+  }
 
-  testCompoundWords()
-}
+  return exports
+}());
