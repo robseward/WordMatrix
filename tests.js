@@ -20,7 +20,7 @@ var testWordFinding = (function() {
     var letterElements = elementStubFactory(letters)
     var results = getWords(findWords(letterElements))
     if (!eq(results, expectedResults)) {
-      throw "failed test: \nExpected: " + expectedResults + "\nReceived: " + results
+      colorTrace( "failed test: \nExpected: " + expectedResults + "\nReceived: " + results, "red")
     } else {
       console.log("PASS: " + letters)
     }
@@ -35,8 +35,14 @@ var testWordFinding = (function() {
   }
 
   exports.runTests = function() {
-    test("baseball", ["base", "baseball", "ball"])
+    test("baseball", ["baseball"])
+    test("slkdjfbecomeds", ["become"])
+    test("sfsdogsdogslj", ["dogs"])
   }
 
   return exports
 }());
+
+function colorTrace(msg, color) {
+    console.log("%c" + msg, "color:" + color + ";font-weight:bold;");
+}
