@@ -22,7 +22,7 @@ var testWordFinding = (function() {
     if (!eq(results, expectedResults)) {
       colorTrace( "failed test: \nExpected: " + expectedResults + "\nReceived: " + results, "red")
     } else {
-      console.log("PASS: " + letters)
+      colorTrace("PASS: \nExpected/Received: " + expectedResults, "green")
     }
   }
 
@@ -38,6 +38,8 @@ var testWordFinding = (function() {
     test("baseball", ["baseball"])
     test("slkdjfbecomeds", ["become"])
     test("sfsdogsdogslj", ["dogs"])
+    test('ldkjcatsljdogsl', ["cats", "dogs"])
+    test('ldkjcatsdogslferret', ["cats", "ferret"])
   }
 
   return exports
