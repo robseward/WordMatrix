@@ -6,6 +6,9 @@ var cssIdPrefix = "#letter_"
 var svg
 var aspectRatio = 9.0/16.0
 
+var baseColor = "white"
+var highlightColorPrimary = "red"
+var highlightColorSecondary = "#0691f9"
 
 function main() {
   var numLetters = rows * columns
@@ -66,7 +69,7 @@ function moveLetters(row, column, excludeRow, excludeColumn) {
     .attr("y", y1)
     .on("end", function (d){
       moveLetters(destination.row, destination.column, row, column)
-      resetToBlack(svg)
+      setAllToBaseColor(svg)
       drawWords(svg, matrix)
     })
 }
@@ -84,7 +87,7 @@ function drawWords(svg, matrix) {
     for (word of result) {
       for (id of word.ids){
         var cssId = "#letter_" + id
-        makeRed(svg, cssId)
+        setHighlightPrimary(svg, cssId)
       }
     }
   }
@@ -93,29 +96,24 @@ function drawWords(svg, matrix) {
     for (word of result) {
       for (id of word.ids){
         var cssId = "#letter_" + id
-        makeBlue(svg, cssId)
+        setHighlightSecondary(svg, cssId)
       }
     }
   }
 }
 
-function makeBlack(svg, id) {
+function setHighlightPrimary(svg, id) {
   svg.select(id)
-    .style("fill", "white")
+    .style("fill", highlightColorPrimary)
 }
 
-function makeRed(svg, id) {
+function setHighlightSecondary(svg, id) {
   svg.select(id)
-    .style("fill", "red")
+    .style("fill", highlightColorSecondary)
 }
 
-function makeBlue(svg, id) {
-  svg.select(id)
-    .style("fill", "#0691f9")
-}
-
-function resetToBlack(svg) {
-  svg.selectAll("text").style("fill", "white")
+function setAllToBaseColor(svg) {
+  svg.selectAll("text").style("fill", baseColor)
 }
 
 function drawMatrix(svg, matrix) {
