@@ -158,7 +158,7 @@ function findWords(elementList) {
   var words = []
 
   for(i=0; i < elementList.length; i++) {
-    for(j=i+minWordSize; j <= i+maxWordSize; j++) {
+    for(j=i+maxWordSize; j >= i+minWordSize; j--) {
       if (j > elementList.length) {
         continue
       }
@@ -171,7 +171,8 @@ function findWords(elementList) {
       }
       if (findTrieWord(word, wordTrie)){
         results.push( {word: word, ids: ids} )
-        //i = k
+        i = j
+        break
       }
     }
   }
