@@ -104,16 +104,23 @@ function drawWords(svg, matrix) {
 
 function setHighlightPrimary(svg, id) {
   svg.select(id)
-    .style("fill", highlightColorPrimary)
+    .classed("base-color", false)
+    .classed("vertical-found", true)
+    .classed("horizontal-found", false)
 }
 
 function setHighlightSecondary(svg, id) {
   svg.select(id)
-    .style("fill", highlightColorSecondary)
+    .classed("base-color", false)
+    .classed("vertical-found", false)
+    .classed("horizontal-found", true)
 }
 
 function setAllToBaseColor(svg) {
-  svg.selectAll("text").style("fill", baseColor)
+  svg.selectAll("text")
+    .classed("base-color", true)
+    .classed("vertical-found", false)
+    .classed("horizontal-found", false)
 }
 
 function drawMatrix(svg, matrix) {
@@ -141,7 +148,7 @@ function addLetter(svg, letter, id, x, y) {
     .text(letter)
     .attr("x", x)
     .attr("y", y)
-    .attr("class", "letter")
+    .attr("class", "letter base-color")
     .attr("text-anchor", "middle")
     .attr("id", id)
 }

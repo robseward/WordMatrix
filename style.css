@@ -10,3 +10,15 @@ body {
   font-size: 7vh;
   font-weight: 600;
 }
+
+.base-color {
+  fill: #e6e9ec
+}
+
+.vertical-found {
+  fill: #FC451E;
+}
+
+.horizontal-found {
+  fill: #38E83E
+}
