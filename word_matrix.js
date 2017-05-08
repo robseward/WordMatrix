@@ -6,10 +6,6 @@ var cssIdPrefix = "#letter_"
 var svg
 var aspectRatio = 9.0/16.0
 
-var baseColor = "#e6e9ec"
-var highlightColorPrimary = "FF5048"
-var highlightColorSecondary = "0CE888"
-
 function main() {
   var numLetters = rows * columns
   var letters = []
