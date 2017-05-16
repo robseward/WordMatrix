@@ -70,6 +70,17 @@ function moveLetters(row, column, excludeRow, excludeColumn) {
     })
 }
 
+/*
+go through rows/columns and find words
+hash = word, (r, c) coord of starting letter, vertical or horizontal-found
+get hashes of all onscreen words
+diff new hashes with old
+remove old ones not in new
+Add new ones not in old, assign color
+draw
+*/
+
+
 function drawWords(svg, matrix) {
   var rowResults = []
   var columnResults = []
