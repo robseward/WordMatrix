@@ -81,38 +81,54 @@ function drawWords(svg, matrix) {
   }
   for (result of rowResults) {
     for (word of result) {
+      var colorClass = randomColorClass()
       for (id of word.ids){
         var cssId = "#letter_" + id
-        setHighlightPrimary(svg, cssId)
+        setHighlightPrimary(svg, cssId, colorClass)
       }
     }
   }
 
   for (result of columnResults) {
     for (word of result) {
+      var colorClass = randomColorClass()
       for (id of word.ids){
         var cssId = "#letter_" + id
-        setHighlightSecondary(svg, cssId)
+        setHighlightSecondary(svg, cssId, colorClass)
       }
     }
   }
 }
 
-function setHighlightPrimary(svg, id) {
+function setHighlightPrimary(svg, id, colorClass) {
+  removeColorClasses(svg.select(id))
   svg.select(id)
     .classed("base-color", false)
-    .classed("vertical-found", true)
-    .classed("horizontal-found", false)
+    .classed(colorClass, true)
 }
 
-function setHighlightSecondary(svg, id) {
+function setHighlightSecondary(svg, id, colorClass) {
+  removeColorClasses(svg.select(id))
   svg.select(id)
     .classed("base-color", false)
-    .classed("vertical-found", false)
-    .classed("horizontal-found", true)
+    .classed(colorClass, true)
+}
+
+var numColors = 5
+function randomColorClass() {
+  var colorNum = (Math.floor((Math.random() * 100)) % numColors) + 1;
+  return "color-" + colorNum
+}
+
+function removeColorClasses(letterElement) {
+  for (var i=1; i <= numColors; i++) {
+    var className = "color-" + i
+    letterElement.classed(className , false)
+  }
 }
 
 function setAllToBaseColor(svg) {
+  removeColorClasses(svg.selectAll("text"))
   svg.selectAll("text")
     .classed("base-color", true)
     .classed("vertical-found", false)

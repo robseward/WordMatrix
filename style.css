@@ -1,5 +1,5 @@
 body {
-  background-color: #495874;
+  background-color: #2c323c;
   margin:0px;
 }
 
@@ -16,9 +16,35 @@ body {
 }
 
 .vertical-found {
-  fill: #FC451E;
+  fill: #59bef9;
+  /*fill: #ff1bee; /*fuscha */*/
 }
 
 .horizontal-found {
-  fill: #38E83E
+  /*fill: #ff1bee*/
+  fill: #f5dc85
+  /*fill: #fafd0b hot yellow*/
+  /*fill: #00f149 /* green */ */
+  /*fill: #2c9dfd /* stand-up blue */*/
+  fill: #00f1c3 /* sea green */
+}
+
+.color-1 {
+  fill: #ff1bee
+}
+
+.color-2 {
+  fill: #f5dc85
+}
+
+.color-3 {
+  fill: #fafd0b
+}
+
+.color-4 {
+  fill: #00f149
+}
+
+.color-5 {
+  fill: #00f1c3
 }
