@@ -66,8 +66,9 @@ function moveLetters(row, column, excludeRow, excludeColumn) {
     .on("end", function (d){
       moveLetters(destination.row, destination.column, row, column)
       setAllToBaseColor(svg)
-      drawWords(svg, matrix)
+      //drawWords(svg, matrix)
       findWordsAndStoreThem(svg, matrix)
+      updateColors(svg)
     })
 }
 
@@ -84,30 +85,44 @@ draw
 var map = new Map()
 function findWordsAndStoreThem(svg, matrix) {
 
+  // gather words and put them into map
   var results = []
   results = matrix.getRows().map(findWords)
-  results = results.concat(
-    matrix.getColumns()
-      .map(findWords)
-    )
-      .filter(function(x) { return x.length > 0} )
+  results = results
+    .concat(
+      matrix
+        .getColumns()
+        .map(findWords))
 
+  results = results.filter(function(x) { return x.length > 0} )
+  results = results.map( function(x) { return x[0]; } )
+
+  //delete words from map that aren't in result
   var resultHashes = results.map(getHashCode);
-  //console.log(resultHashes)
   var forDeletion = Array.from(map.keys()).filter(function(x) { return !resultHashes.includes(x) })
+  forDeletion.forEach( function(hash) {
+    map.delete(hash)
+  })
 
-  console.log(forDeletion)
-  // for (var i=0; i < mapKeys.)
-
-  for (var i=0; i < results.length; i++) {
-    var result = results[i]
+  //if result is not in map, assign color and insert in map
+  results.forEach( function(result) {
     var hash = getHashCode(result)
     if (!map.has(hash)) {
       result.color = randomColorClass()
       map.set(hash, result)
     }
-  }
+  })
+}
 
+function updateColors(svg) {
+  for (result of map.values()) {
+    // console.log(result)
+    var cssIds = result.ids.map( function(id) { return "#letter_" + id })
+    cssIds.forEach( function(id) {
+      //console.log(id + " " + result.color)
+      setHighlightPrimary(svg, id, result.color)
+    })
+  }
 }
 
 function drawWords(svg, matrix) {
@@ -266,6 +281,7 @@ function findTrieWord( word, cur ) {
 function WordResult(word, ids) {
   this.word = word
   this.ids = ids
+  this.color = ""
 }
 
 function getHashCode(obj) {
