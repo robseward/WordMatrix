@@ -67,6 +67,7 @@ function moveLetters(row, column, excludeRow, excludeColumn) {
       moveLetters(destination.row, destination.column, row, column)
       setAllToBaseColor(svg)
       drawWords(svg, matrix)
+      findWordsAndStoreThem(svg, matrix)
     })
 }
 
@@ -80,6 +81,34 @@ Add new ones not in old, assign color
 draw
 */
 
+var map = new Map()
+function findWordsAndStoreThem(svg, matrix) {
+
+  var results = []
+  results = matrix.getRows().map(findWords)
+  results = results.concat(
+    matrix.getColumns()
+      .map(findWords)
+    )
+      .filter(function(x) { return x.length > 0} )
+
+  var resultHashes = results.map(getHashCode);
+  //console.log(resultHashes)
+  var forDeletion = Array.from(map.keys()).filter(function(x) { return !resultHashes.includes(x) })
+
+  console.log(forDeletion)
+  // for (var i=0; i < mapKeys.)
+
+  for (var i=0; i < results.length; i++) {
+    var result = results[i]
+    var hash = getHashCode(result)
+    if (!map.has(hash)) {
+      result.color = randomColorClass()
+      map.set(hash, result)
+    }
+  }
+
+}
 
 function drawWords(svg, matrix) {
   var rowResults = []
@@ -90,6 +119,9 @@ function drawWords(svg, matrix) {
   for (column of matrix.getColumns()) {
     columnResults.push(findWords(column))
   }
+
+
+
   for (result of rowResults) {
     for (word of result) {
       var colorClass = randomColorClass()
@@ -198,7 +230,7 @@ function findWords(elementList) {
         ids.push(e.id)
       }
       if (findTrieWord(word, wordTrie)){
-        results.push( {word: word, ids: ids} )
+        results.push( new WordResult(word, ids) )
         i = j
         break
       }
@@ -230,3 +262,17 @@ function findTrieWord( word, cur ) {
 
 	return false;
 };
+
+function WordResult(word, ids) {
+  this.word = word
+  this.ids = ids
+}
+
+function getHashCode(obj) {
+    var hashCode = '';
+    if (typeof obj !== 'object')
+        return hashCode + obj;
+    for (var prop in obj) // No hasOwnProperty needed
+        hashCode += prop + getHashCode(obj[prop]); // Add key + value to the result string
+    return hashCode;
+}
