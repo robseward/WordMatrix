@@ -1,0 +1,40 @@
+body {
+  background-color: #2c323c;
+  margin:0px;
+  letter-spacing: 2vh;
+  text-align: center;
+  fill: white;
+  color: #e6e9ec;
+  font-family: 'Work Sans';
+  font-size: 8vh;
+  font-weight: 600;
+}
+
+
+
+.base-color {
+  color: #e6e9ec;
+}
+
+.color-1 {
+  color: #ff1bee;
+}
+
+.color-2 {
+  color: #00e9f9;
+}
+
+.color-3 {
+  color: #fafd0b;
+}
+
+.color-4 {
+  color: #00f149;
+}
+
+.color-5 {
+  color: #ff8600;
+}
+.color-6 {
+  color: #FF0086;
+}

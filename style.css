@@ -12,7 +12,7 @@ body {
 }
 
 .base-color {
-  fill: #e6e9ec
+  fill: #e6e9ec;
 }
 
 .vertical-found {
@@ -21,30 +21,29 @@ body {
 }
 
 .horizontal-found {
-  /*fill: #ff1bee*/
   fill: #f5dc85
-  /*fill: #fafd0b hot yellow*/
-  /*fill: #00f149 /* green */ */
-  /*fill: #2c9dfd /* stand-up blue */*/
   fill: #00f1c3 /* sea green */
 }
 
 .color-1 {
-  fill: #ff1bee
+  fill: #ff1bee;
 }
 
 .color-2 {
-  fill: #f5dc85
+  fill: #00e9f9;
 }
 
 .color-3 {
-  fill: #fafd0b
+  fill: #fafd0b;
 }
 
 .color-4 {
-  fill: #00f149
+  fill: #00f149;
 }
 
 .color-5 {
-  fill: #00f1c3
+  fill: #ff8600;
+}
+.color-6 {
+  fill: #FF0086;
 }
