@@ -108,7 +108,7 @@ function findWordsAndStoreThem(svg, matrix) {
   results.forEach( function(result) {
     var hash = getHashCode(result)
     if (!map.has(hash)) {
-      result.color = randomColorClass()
+      result.color = nextColorClass()
       map.set(hash, result)
     }
   })
@@ -139,7 +139,7 @@ function drawWords(svg, matrix) {
 
   for (result of rowResults) {
     for (word of result) {
-      var colorClass = randomColorClass()
+      var colorClass = nextColorClass()
       for (id of word.ids){
         var cssId = "#letter_" + id
         setHighlightPrimary(svg, cssId, colorClass)
@@ -149,7 +149,7 @@ function drawWords(svg, matrix) {
 
   for (result of columnResults) {
     for (word of result) {
-      var colorClass = randomColorClass()
+      var colorClass = nextColorClass()
       for (id of word.ids){
         var cssId = "#letter_" + id
         setHighlightSecondary(svg, cssId, colorClass)
@@ -172,10 +172,16 @@ function setHighlightSecondary(svg, id, colorClass) {
     .classed(colorClass, true)
 }
 
-var numColors = 5
+var numColors = 6
 function randomColorClass() {
   var colorNum = (Math.floor((Math.random() * 100)) % numColors) + 1;
   return "color-" + colorNum
+}
+
+var colorIndex = 1
+function nextColorClass() {
+  colorIndex = ((colorIndex + 1) % 6)
+  return "color-" + (colorIndex + 1)
 }
 
 function removeColorClasses(letterElement) {
