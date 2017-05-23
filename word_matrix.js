@@ -172,7 +172,7 @@ function setHighlightSecondary(svg, id, colorClass) {
     .classed(colorClass, true)
 }
 
-var numColors = 6
+var numColors = 5
 function randomColorClass() {
   var colorNum = (Math.floor((Math.random() * 100)) % numColors) + 1;
   return "color-" + colorNum
@@ -180,7 +180,7 @@ function randomColorClass() {
 
 var colorIndex = 1
 function nextColorClass() {
-  colorIndex = ((colorIndex + 1) % 6)
+  colorIndex = ((colorIndex + 1) % numColors)
   return "color-" + (colorIndex + 1)
 }
 

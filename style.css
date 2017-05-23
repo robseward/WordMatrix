@@ -1,5 +1,5 @@
 body {
-  background-color: #2c323c;
+  background-color: #000;
   margin:0px;
 }
 
@@ -12,38 +12,36 @@ body {
 }
 
 .base-color {
-  fill: #e6e9ec;
+  fill: #A9A9A9;
 }
 
 .vertical-found {
   fill: #59bef9;
-  /*fill: #ff1bee; /*fuscha */*/
 }
 
 .horizontal-found {
-  fill: #f5dc85
-  fill: #00f1c3 /* sea green */
+  /*fill: #f5dc85*/
+  fill: #00f1c3; /* sea green */
 }
 
 .color-1 {
-  fill: #ff1bee;
+  fill: #da19cc;
 }
 
 .color-2 {
-  fill: #00e9f9;
+  fill: #01c4d2;
 }
 
 .color-3 {
-  fill: #fafd0b;
+  fill: #c3c50c;
 }
-
 .color-4 {
-  fill: #00f149;
+  fill: #02d241;
 }
+/*.color-5 {
+  fill: #e27803;
+}*/
 
 .color-5 {
-  fill: #ff8600;
-}
-.color-6 {
-  fill: #FF0000;
+  fill: #e20303;
 }

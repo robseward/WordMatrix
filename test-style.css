@@ -3,7 +3,7 @@ body {
   margin:0px;
   letter-spacing: 2vh;
   text-align: center;
-  fill: white;
+  color: white;
   color: #e6e9ec;
   font-family: 'Work Sans';
   font-size: 8vh;
@@ -13,28 +13,27 @@ body {
 
 
 .base-color {
-  color: #e6e9ec;
+  color: #A9A9A9;
 }
 
 .color-1 {
-  color: #ff1bee;
+  color: #da19cc;
 }
 
 .color-2 {
-  color: #00e9f9;
+  color: #01c4d2;
 }
 
 .color-3 {
-  color: #fafd0b;
+  color: #c3c50c;
 }
-
 .color-4 {
-  color: #00f149;
+  color: #02d241;
+}
+.color-5 {
+  color: #e27803;
 }
 
-.color-5 {
-  color: #ff8600;
-}
 .color-6 {
-  color: #FF0086;
+  color: #e20303;
 }
