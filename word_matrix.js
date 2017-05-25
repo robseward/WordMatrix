@@ -10,8 +10,6 @@ function main() {
   var numLetters = rows * columns
   var letters = []
 
-
-
   params = new URLSearchParams(window.location.search.slice(1))
   var wordsParam = params.get("words")
   var eoParam = params.get("eodata")
@@ -42,6 +40,7 @@ function queryEOData() {
         console.log("Full Name: " + fullName)
         var words = fullName.toUpperCase().split(" ")
         var letters = letterGenerator.randomLettersFromWordList(words, numLetters)
+        letters[0] = " "
         createMatrixAndBegin(rows, columns, letters)
         console.log(data);
     })
@@ -65,8 +64,8 @@ function createMatrixAndBegin(rows, columns, letters) {
 }
 
 function moveLetters(row, column, excludeRow, excludeColumn) {
-  // var duration = 50
-  // var delay = 10
+  // var duration = 1000
+  // var delay = 1000
   var duration = 100
   var delay = 25
   var id1 = matrix.matrix[row][column].id
