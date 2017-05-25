@@ -30,7 +30,8 @@ function main() {
   svg = d3.select("body").append("svg").attr("width", width).attr("height", docHeight)
 
   drawMatrix(svg, matrix)
-  drawWords(svg, matrix)
+  //drawWords(svg, matrix)
+  findWordsAndStoreThem(svg, matrix)
 
   moveLetters(0, 0, -1, -1)
 }
@@ -120,52 +121,12 @@ function updateColors(svg) {
     var cssIds = result.ids.map( function(id) { return "#letter_" + id })
     cssIds.forEach( function(id) {
       //console.log(id + " " + result.color)
-      setHighlightPrimary(svg, id, result.color)
+      setColor(svg, id, result.color)
     })
   }
 }
 
-function drawWords(svg, matrix) {
-  var rowResults = []
-  var columnResults = []
-  for (row of matrix.getRows()) {
-    rowResults.push(findWords(row))
-  }
-  for (column of matrix.getColumns()) {
-    columnResults.push(findWords(column))
-  }
-
-
-
-  for (result of rowResults) {
-    for (word of result) {
-      var colorClass = nextColorClass()
-      for (id of word.ids){
-        var cssId = "#letter_" + id
-        setHighlightPrimary(svg, cssId, colorClass)
-      }
-    }
-  }
-
-  for (result of columnResults) {
-    for (word of result) {
-      var colorClass = nextColorClass()
-      for (id of word.ids){
-        var cssId = "#letter_" + id
-        setHighlightSecondary(svg, cssId, colorClass)
-      }
-    }
-  }
-}
-
-function setHighlightPrimary(svg, id, colorClass) {
-  removeColorClasses(svg.select(id))
-  svg.select(id)
-    .classed("base-color", false)
-    .classed(colorClass, true)
-}
-
-function setHighlightSecondary(svg, id, colorClass) {
+function setColor(svg, id, colorClass) {
   removeColorClasses(svg.select(id))
   svg.select(id)
     .classed("base-color", false)
