@@ -10,3 +10,38 @@ body {
   font-size: 7vh;
   font-weight: 600;
 }
+
+.base-color {
+  fill: #A9A9A9;
+}
+
+.vertical-found {
+  fill: #59bef9;
+}
+
+.horizontal-found {
+  /*fill: #f5dc85*/
+  fill: #00f1c3; /* sea green */
+}
+
+.color-1 {
+  fill: #da19cc;
+}
+
+.color-2 {
+  fill: #01c4d2;
+}
+
+.color-3 {
+  fill: #c3c50c;
+}
+.color-4 {
+  fill: #02d241;
+}
+/*.color-5 {
+  fill: #e27803;
+}*/
+
+.color-5 {
+  fill: #e20303;
+}

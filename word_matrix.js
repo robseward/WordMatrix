@@ -6,10 +6,6 @@ var cssIdPrefix = "#letter_"
 var svg
 var aspectRatio = 9.0/16.0
 
-var baseColor = "white"
-var highlightColorPrimary = "red"
-var highlightColorSecondary = "#0691f9"
-
 function main() {
   var numLetters = rows * columns
   var letters = []
@@ -70,8 +66,63 @@ function moveLetters(row, column, excludeRow, excludeColumn) {
     .on("end", function (d){
       moveLetters(destination.row, destination.column, row, column)
       setAllToBaseColor(svg)
-      drawWords(svg, matrix)
+      //drawWords(svg, matrix)
+      findWordsAndStoreThem(svg, matrix)
+      updateColors(svg)
     })
+}
+
+/*
+go through rows/columns and find words
+hash = word, (r, c) coord of starting letter, vertical or horizontal-found
+get hashes of all onscreen words
+diff new hashes with old
+remove old ones not in new
+Add new ones not in old, assign color
+draw
+*/
+
+var map = new Map()
+function findWordsAndStoreThem(svg, matrix) {
+
+  // gather words and put them into map
+  var results = []
+  results = matrix.getRows().map(findWords)
+  results = results
+    .concat(
+      matrix
+        .getColumns()
+        .map(findWords))
+
+  results = results.filter(function(x) { return x.length > 0} )
+  results = results.map( function(x) { return x[0]; } )
+
+  //delete words from map that aren't in result
+  var resultHashes = results.map(getHashCode);
+  var forDeletion = Array.from(map.keys()).filter(function(x) { return !resultHashes.includes(x) })
+  forDeletion.forEach( function(hash) {
+    map.delete(hash)
+  })
+
+  //if result is not in map, assign color and insert in map
+  results.forEach( function(result) {
+    var hash = getHashCode(result)
+    if (!map.has(hash)) {
+      result.color = nextColorClass()
+      map.set(hash, result)
+    }
+  })
+}
+
+function updateColors(svg) {
+  for (result of map.values()) {
+    // console.log(result)
+    var cssIds = result.ids.map( function(id) { return "#letter_" + id })
+    cssIds.forEach( function(id) {
+      //console.log(id + " " + result.color)
+      setHighlightPrimary(svg, id, result.color)
+    })
+  }
 }
 
 function drawWords(svg, matrix) {
@@ -83,37 +134,69 @@ function drawWords(svg, matrix) {
   for (column of matrix.getColumns()) {
     columnResults.push(findWords(column))
   }
+
+
+
   for (result of rowResults) {
     for (word of result) {
+      var colorClass = nextColorClass()
       for (id of word.ids){
         var cssId = "#letter_" + id
-        setHighlightPrimary(svg, cssId)
+        setHighlightPrimary(svg, cssId, colorClass)
       }
     }
   }
 
   for (result of columnResults) {
     for (word of result) {
+      var colorClass = nextColorClass()
       for (id of word.ids){
         var cssId = "#letter_" + id
-        setHighlightSecondary(svg, cssId)
+        setHighlightSecondary(svg, cssId, colorClass)
       }
     }
   }
 }
 
-function setHighlightPrimary(svg, id) {
+function setHighlightPrimary(svg, id, colorClass) {
+  removeColorClasses(svg.select(id))
   svg.select(id)
-    .style("fill", highlightColorPrimary)
+    .classed("base-color", false)
+    .classed(colorClass, true)
 }
 
-function setHighlightSecondary(svg, id) {
+function setHighlightSecondary(svg, id, colorClass) {
+  removeColorClasses(svg.select(id))
   svg.select(id)
-    .style("fill", highlightColorSecondary)
+    .classed("base-color", false)
+    .classed(colorClass, true)
+}
+
+var numColors = 5
+function randomColorClass() {
+  var colorNum = (Math.floor((Math.random() * 100)) % numColors) + 1;
+  return "color-" + colorNum
+}
+
+var colorIndex = 1
+function nextColorClass() {
+  colorIndex = ((colorIndex + 1) % numColors)
+  return "color-" + (colorIndex + 1)
+}
+
+function removeColorClasses(letterElement) {
+  for (var i=1; i <= numColors; i++) {
+    var className = "color-" + i
+    letterElement.classed(className , false)
+  }
 }
 
 function setAllToBaseColor(svg) {
-  svg.selectAll("text").style("fill", baseColor)
+  removeColorClasses(svg.selectAll("text"))
+  svg.selectAll("text")
+    .classed("base-color", true)
+    .classed("vertical-found", false)
+    .classed("horizontal-found", false)
 }
 
 function drawMatrix(svg, matrix) {
@@ -141,7 +224,7 @@ function addLetter(svg, letter, id, x, y) {
     .text(letter)
     .attr("x", x)
     .attr("y", y)
-    .attr("class", "letter")
+    .attr("class", "letter base-color")
     .attr("text-anchor", "middle")
     .attr("id", id)
 }
@@ -168,7 +251,7 @@ function findWords(elementList) {
         ids.push(e.id)
       }
       if (findTrieWord(word, wordTrie)){
-        results.push( {word: word, ids: ids} )
+        results.push( new WordResult(word, ids) )
         i = j
         break
       }
@@ -200,3 +283,18 @@ function findTrieWord( word, cur ) {
 
 	return false;
 };
+
+function WordResult(word, ids) {
+  this.word = word
+  this.ids = ids
+  this.color = ""
+}
+
+function getHashCode(obj) {
+    var hashCode = '';
+    if (typeof obj !== 'object')
+        return hashCode + obj;
+    for (var prop in obj) // No hasOwnProperty needed
+        hashCode += prop + getHashCode(obj[prop]); // Add key + value to the result string
+    return hashCode;
+}
