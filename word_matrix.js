@@ -10,6 +10,17 @@ function main() {
   var numLetters = rows * columns
   var letters = []
 
+  ElectricObjects
+    .fetchDeviceInfo()
+    .then(function(data) {
+        // Do something with the data
+        console.log(data);
+    })
+    .catch(function(error) {
+        // Handle exceptions
+        console.log(error)
+    });
+
   params = new URLSearchParams(window.location.search.slice(1))
   var wordsParam = params.get("words")
   if (wordsParam) {
