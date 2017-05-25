@@ -10,20 +10,16 @@ function main() {
   var numLetters = rows * columns
   var letters = []
 
-  ElectricObjects
-    .fetchDeviceInfo()
-    .then(function(data) {
-        // Do something with the data
-        console.log(data);
-    })
-    .catch(function(error) {
-        // Handle exceptions
-        console.log(error)
-    });
+
 
   params = new URLSearchParams(window.location.search.slice(1))
   var wordsParam = params.get("words")
-  if (wordsParam) {
+  var eoParam = params.get("eodata")
+  if (eoParam) {
+    queryEOData()
+    return;
+  }
+  else if (wordsParam) {
     var words = wordsParam.split(',')
     letters = letterGenerator.randomLettersFromWordList(words, numLetters)
   }
@@ -33,6 +29,29 @@ function main() {
 
   letters[0] = " "
 
+  createMatrixAndBegin(rows, columns, letters)
+}
+
+function queryEOData() {
+  ElectricObjects
+    .fetchDeviceInfo()
+    .then(function(data) {
+        // Do something with the data
+        var numLetters = rows * columns
+        var fullName = data.user.full_name
+        console.log("Full Name: " + fullName)
+        var words = fullName.toUpperCase().split(" ")
+        var letters = letterGenerator.randomLettersFromWordList(words, numLetters)
+        createMatrixAndBegin(rows, columns, letters)
+        console.log(data);
+    })
+    .catch(function(error) {
+        // Handle exceptions
+        console.log(error)
+    });
+}
+
+function createMatrixAndBegin(rows, columns, letters) {
   matrix = new Matrix().setMatrix(rows, columns, letters)
   var spacing = 100
   var docHeight = document.documentElement.clientHeight
@@ -41,9 +60,7 @@ function main() {
   svg = d3.select("body").append("svg").attr("width", width).attr("height", docHeight)
 
   drawMatrix(svg, matrix)
-  //drawWords(svg, matrix)
   findWordsAndStoreThem(svg, matrix)
-
   moveLetters(0, 0, -1, -1)
 }
 
